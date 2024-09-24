@@ -7,7 +7,7 @@ module Leaflet
   mattr_accessor :attribution
   mattr_accessor :max_zoom
   mattr_accessor :subdomains
-  
+
   module Rails
     class Engine < ::Rails::Engine
       initializer 'leaflet-rails.precompile' do |app|
@@ -17,7 +17,9 @@ module Leaflet
       end
 
       initializer 'leaflet-rails.helpers' do
-        ActionView::Base.send :include, Leaflet::ViewHelpers
+        ActiveSupport.on_load(:action_view) do
+          ActionView::Base.send :include, Leaflet::ViewHelpers
+        end
       end
     end
   end
